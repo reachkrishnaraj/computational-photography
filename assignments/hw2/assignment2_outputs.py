@@ -137,3 +137,16 @@ def flipHorizontal(image):
     # WRITE YOUR CODE HERE.
     return cv2.flip(image, 1)
     # END OF FUNCTION.
+
+# Test function outputs
+#testImage = cv2.imread("test_image.jpg", cv2.IMREAD_GRAYSCALE)
+#testImage2 = cv2.imread("test_image_2.jpg", cv2.IMREAD_GRAYSCALE)
+#print "numberOfPixels: %s" % numberOfPixels(testImage)
+#print "averagePixel: %s" % averagePixel(testImage)
+#print "convertToBlackAndWhite: bw_image.jpg"
+#cv2.imwrite('bw_image.jpg', convertToBlackAndWhite(testImage))
+#print "averageTwoImages: avg_image.jpg"
+#cv2.imwrite('avg_image.jpg', averageTwoImages(testImage, testImage2))
+#print "flipHorizontal: flip_image.jpg"
+#cv2.imwrite('flip_image.jpg', flipHorizontal(testImage))
+
