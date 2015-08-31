@@ -1,6 +1,6 @@
 # ASSIGNMENT 2
 # Hieu Nguyen
-# GTID: hnguyen333
+# GTID: 903185448
 # Email: hieu@gatech.edu
 
 import cv2
