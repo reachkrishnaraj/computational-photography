@@ -139,10 +139,10 @@ def flipHorizontal(image):
     # END OF FUNCTION.
 
 # Test function outputs
-#testImage = cv2.imread("test_image.jpg", cv2.IMREAD_GRAYSCALE)
-#testImage2 = cv2.imread("test_image_2.jpg", cv2.IMREAD_GRAYSCALE)
-#print "numberOfPixels: %s" % numberOfPixels(testImage)
-#print "averagePixel: %s" % averagePixel(testImage)
+testImage = cv2.imread("test_image.jpg", cv2.IMREAD_GRAYSCALE)
+testImage2 = cv2.imread("test_image_2.jpg", cv2.IMREAD_GRAYSCALE)
+print "numberOfPixels: %s" % numberOfPixels(testImage)
+print "averagePixel: %s" % averagePixel(testImage)
 #print "convertToBlackAndWhite: bw_image.jpg"
 #cv2.imwrite('bw_image.jpg', convertToBlackAndWhite(testImage))
 #print "averageTwoImages: avg_image.jpg"

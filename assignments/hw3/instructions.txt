@@ -1,0 +1,57 @@
+Instructions
+Epsilon Photography (4 or so Pictures of the Same, something different)
+
+Instructions
+In this assignment, you will learn about the concept of Epsilon Photography. The definition of Episilon Photography is 
+'Epsilon Photography', where the scene is recorded via multiple images, each captured by an epsilon variation of the camera parameters. 
+The goal of this assignment is to have take 4 to 8 (and not more) pictures of something or someone (we will refer to these as N pictures). All N pictures should have something in common and something varying in very small (epsilon amounts) . Here we want you to vary ONLY 1 parameter across all the images, not all. And again, that parameter should vary, in the minutest, smallest amount from one picture to another.
+
+For example, capture multiple pictures of the same building/object/person/background/etc.
+
+at different times (here the time difference can be hours, like a time-lapse) -- but everything else remains the same.
+at different lighting conditions (say with flash, without, etc.);
+of different viewpoints;
+at different exposures, focus, zooms, iso, speed, FOV, etc., etc., Test what you and your camera can do. 
+same background and camera position but a moving subject (think / look up stop-motion animation);
+etc. (be creative, but please remember the goals of this assignment!).
+Now think about what would you do with these N images to generate a new image that shows a novel view or representation. Be creative.  Try to then create such an image.  Use whatever tool, code, necessary to create your final artifact. Feel free to create a GIF if you feel it will better present what you are trying to illustrate.
+
+What we are looking for
+What we are looking for is planning.  Plan on what your N images are and how you'd like to generate a newer/novel view or an image.  Plan on capturing these images carefully and thoughtfully.  Think what cameras do currently and what you'd like them to do next (with computation). If you look around, you may find that many cameras already do some sort of epsilon photography (e.g. see http://www.macworld.com/article/1153850/hdrontheiphone.html)
+
+Please turn in the following files (Note, both the PDF and the image sequence are required!). Keep the size limit of each file to 6MB. If you need to compress your PDF before submitting, you can use http://smallpdf.com/compress-pdf: 
+LastName_FirstInitial_A3_Image_#.ext (total of 5 -- 1,2,3,4,F) - Upload all the N images and the final image to T-square.
+Name each files LastName_FirstInitial_A#_Image_#.ext (where LastNames if your last name, FirstInitial is your first initial, A# is the assignment # (in this case A3), Image_# is the image in the sequece, here 1,2,3,4 and F for final one. So names should be like Essa_I_A3_1.jpg, ..., Essa_I_A3_F.jpg. (Images preferred in JPG or PNG)
+LastName_FirstInitial_A3.pdf - Create a Document in PDF (name it LastName_FI_A3.pdf, for example Essa_I_A3.pdf) with the following details and submit in T-square. Here is a template you may follow (make a copy of the template to enable editing).  NOTE: Please make sure that you answer all questions and include all images that are asked for in the template. Feel free to include more details and add additional slides.
+Include the N Images (On one sheet, and then 1 by 1, see example)
+What are the N images of?
+What was your motivation for these four images? Why?
+What would you like the final artifact to be?
+How did you generate the final artifact?
+If your attempt was only partially succesful, guess/plan how you would do it?
+Anything else you wish to note.
+Submit the PDF document with the images to T-square. This is the document that will be used for peer feedback.  Please make sure the images you upload are appropriate to share with others. 
+
+Criteria for Evaluation
+Completeness, choice of domain, creativity and the thought and workflow that reflects what could be considered Computational Photography. Remember, there is NO right answer, but we are looking for your thought process through it. If you turn in something with huge variations in each image, then you have NOT followed the instructions and the goal of this assignment, so points will be deducted.  
+
+What NOT to do? (and these are examples from Past Students!)
+Submit pictures of your dog (pet) wearing different clothes and jumping around (maybe an example of epsilon fashionography, but not what we want!). If you can keep the dog perfectly still than maybe!
+Submit pictures. 1 each, from your last 4 vacations. Vacation Photography, sure, but not epsilon Photography
+Submit pictures of your family members. 
+Well, you get the message, else, we will have other crazy ideas to add to this list.  
+Here are some examples of Epsilon Photography from the past that went "above and beyond" ...
+Pictures of shaving ones head. Merged the aligned head pictures with different hairs to showcase an amazing final picture;
+Pictures that were used to generate Light Art;
+Time Lapse of Traffic;
+(Look around and discuss on Piazza!)
+Just a pointer to future. In module 7, we will discuss epsilon and coded photography.
+
+--------------------------
+
+90% Rule
+If an assignment calls/has room for creativity, you should expect achieving the bare minimum to be a 90%. Try to think outside the box and demonstrate that you have learned something new. This is your chance to experiment!
+Stereoscopy GIF
+Composite image (skydive?), photo merge, blended picture, macro focus stacking, HDR
+
+
