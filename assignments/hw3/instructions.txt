@@ -53,5 +53,15 @@ Just a pointer to future. In module 7, we will discuss epsilon and coded photogr
 If an assignment calls/has room for creativity, you should expect achieving the bare minimum to be a 90%. Try to think outside the box and demonstrate that you have learned something new. This is your chance to experiment!
 Stereoscopy GIF
 Composite image (skydive?), photo merge, blended picture, macro focus stacking, HDR
+Brenizer method
 
+- Frazier lens with large depth of field, allowing the foreground and background of an image to be in focus
+- superimposing for inverse depth of field, infinite focus
+- focus stacking
+- capturing images at different focal depths (in each image, different areas of the sample will be in focus)
+- in-focus regions are detected automatically via edge detection or Fourier analysis
+- in-focus patches are then blended together to generate the final image
+Landscape photography: one may wish to obtain a vast depth of field, while also avoiding softness at the focal plane due to diffraction. This can enable a much larger and sharper print than otherwise possible.
+Macro photography: one may wish to achieve a greater depth of field than otherwise obtainable using the lens's maximum f-stop (often f/22 or f/32 with SLR cameras).
+Low-light photography: one may want to avoid a prohibitively long exposure time. Alternatively, one may wish to freeze motion in part of their image (such as with a moving subject), but also to preserve an expansive depth of field in other parts of the photo (without resorting to using a flash).
 
