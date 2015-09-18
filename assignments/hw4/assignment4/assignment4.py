@@ -1,5 +1,7 @@
 # ASSIGNMENT 4
-# Your Name
+# Hieu Nguyen
+# GTID: 903185448
+# Email: hieu@gatech.edu
 
 import cv2
 import numpy as np
@@ -53,9 +55,10 @@ def imageGradientX(image):
                                 can be done once the last column is reached. 
     """
     # WRITE YOUR CODE HERE.
-
-
-
+    x_image = np.empty([image.shape[0], image.shape[1]-1])
+    for col in range(image.shape[1] - 1):
+        x_image[:,col] = abs(image[:, col+1] - image[:,col])
+    return x_image
     # END OF FUNCTION.
 
 def imageGradientY(image):
@@ -123,3 +126,19 @@ def computeGradient(image, kernel):
 
     # END OF FUNCTION.
     
+
+# Test
+#testArray = np.array([[1, 2, 4], [4, 6, 7], [9, 7, 4]], np.int32)
+#print testArray
+#x_testArray = np.empty([testArray.shape[0], testArray.shape[1]-1])
+#for col in range(testArray.shape[1] - 1):
+#        x_testArray[:,col] = abs(testArray[:, col+1] - testArray[:,col])
+#print x_testArray
+# 1 2
+# 2 1
+# 2 3
+
+testImage = cv2.imread("test_image.jpg", cv2.IMREAD_GRAYSCALE)
+cv2.imwrite('x_image.jpg', imageGradientX(testImage))
+#cv2.imwrite('y_image.jpg', imageGradientY(testImage))
+#cv2.imwrite('gradient_image.jpg', computeGradient(testImage, 3))
