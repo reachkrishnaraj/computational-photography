@@ -57,7 +57,7 @@ def imageGradientX(image):
     # WRITE YOUR CODE HERE.
     x_image = np.empty([image.shape[0], image.shape[1]-1])
     for col in range(image.shape[1] - 1):
-        x_image[:,col] = abs(image[:, col+1] - image[:,col])
+        x_image[:,col] = abs(image[:,col+1] - image[:,col])
     return x_image
     # END OF FUNCTION.
 
@@ -87,9 +87,10 @@ def imageGradientY(image):
                                 can be done once the last row is reached.
     """
     # WRITE YOUR CODE HERE.
-
-
-
+    y_image = np.empty([image.shape[0]-1, image.shape[1]])
+    for row in range(image.shape[0] - 1):
+        y_image[row,:] = abs(image[row+1,:] - image[row,:])
+    return y_image
     # END OF FUNCTION.
 
 def computeGradient(image, kernel):
@@ -128,17 +129,17 @@ def computeGradient(image, kernel):
     
 
 # Test
-#testArray = np.array([[1, 2, 4], [4, 6, 7], [9, 7, 4]], np.int32)
-#print testArray
-#x_testArray = np.empty([testArray.shape[0], testArray.shape[1]-1])
-#for col in range(testArray.shape[1] - 1):
-#        x_testArray[:,col] = abs(testArray[:, col+1] - testArray[:,col])
-#print x_testArray
+testArray = np.array([[1, 2, 4], [4, 6, 7], [9, 7, 4]], np.int32)
+print testArray
+y_testArray = np.empty([testArray.shape[0]-1, testArray.shape[1]])
+for row in range(testArray.shape[0] - 1):
+    y_testArray[row,:] = abs(testArray[row+1,:] - testArray[row,:])
+print y_testArray
 # 1 2
 # 2 1
 # 2 3
 
 testImage = cv2.imread("test_image.jpg", cv2.IMREAD_GRAYSCALE)
 cv2.imwrite('x_image.jpg', imageGradientX(testImage))
-#cv2.imwrite('y_image.jpg', imageGradientY(testImage))
+cv2.imwrite('y_image.jpg', imageGradientY(testImage))
 #cv2.imwrite('gradient_image.jpg', computeGradient(testImage, 3))
