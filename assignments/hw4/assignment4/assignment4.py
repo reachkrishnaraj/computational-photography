@@ -122,24 +122,28 @@ def computeGradient(image, kernel):
                                 size.
     """                            
     # WRITE YOUR CODE HERE.
+    gradient_image = np.empty([image.shape[0]-2, image.shape[1]-2])
+    sum = 0    
+    for row in xrange(1, image.shape[0]-1):
+        for col in xrange(1, image.shape[1]-1):
+            for (kx, ky), value in np.ndenumerate(kernel):
+                sum += kernel[kx,ky] * image[(row-1)+kx, (col-1)+ky]
+            gradient_image[row-1,col-1] = sum
+            sum = 0
+    return gradient_image
 
-
-
+    gradient_image_filter2D = cv2.filter2D(image, -1, kernel)
+    return gradient_image_filter2D
     # END OF FUNCTION.
     
 
 # Test
-testArray = np.array([[1, 2, 4], [4, 6, 7], [9, 7, 4]], np.int32)
-print testArray
-y_testArray = np.empty([testArray.shape[0]-1, testArray.shape[1]])
-for row in range(testArray.shape[0] - 1):
-    y_testArray[row,:] = abs(testArray[row+1,:] - testArray[row,:])
-print y_testArray
-# 1 2
-# 2 1
-# 2 3
+kernel = np.array([[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]], np.int32)
+#kernel = np.array([[0, 0 ,0], [1, 0, 0], [0, 0, 0]], np.int32)
+#kernel = np.ones((3, 3)) / 9
+print kernel
 
 testImage = cv2.imread("test_image.jpg", cv2.IMREAD_GRAYSCALE)
 cv2.imwrite('x_image.jpg', imageGradientX(testImage))
 cv2.imwrite('y_image.jpg', imageGradientY(testImage))
-#cv2.imwrite('gradient_image.jpg', computeGradient(testImage, 3))
+cv2.imwrite('gradient_image.jpg', computeGradient(testImage, kernel))
