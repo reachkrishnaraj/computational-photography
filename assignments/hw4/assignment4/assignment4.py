@@ -139,42 +139,40 @@ def computeGradient(image, kernel):
     
 
 # Test
-def convertToBlackAndWhite(image):
-    # WRITE YOUR CODE HERE.
-    #image numpy.ndarray has shape 1365x2048, HxW
-    bw_image = np.empty(image.shape) 
-    for (x,y), value in np.ndenumerate(image):
-        if (image[x,y] > 50):
-            bw_image[x,y] = 255
-        else:
-            bw_image[x,y] = 0
-    return bw_image
-    # END OF FUNCTION.
+# def convertToBlackAndWhite(image):
+#     bw_image = np.empty(image.shape) 
+#     for (x,y), value in np.ndenumerate(image):
+#         if (image[x,y] > 50):
+#             bw_image[x,y] = 255
+#         else:
+#             bw_image[x,y] = 0
+#     return bw_image
+#     # END OF FUNCTION.
 
-def edgeDetectXY(image):
-    x_image = imageGradientX(image)
-    y_image = imageGradientY(image)
-    xy_image = np.empty([x_image.shape[0], y_image.shape[1]])
-    print x_image.shape, y_image.shape
-    for row in range(x_image.shape[1]):
-        for col in range(y_image.shape[0]):
-            xy_image[row,col] = math.sqrt(x_image[row,col]**2 + y_image[row,col]**2)
-    return xy_image 
+# def edgeDetectXY(image):
+#     x_image = imageGradientX(image)
+#     y_image = imageGradientY(image)
+#     xy_image = np.empty([x_image.shape[0], y_image.shape[1]])
+#     print x_image.shape, y_image.shape
+#     for row in range(x_image.shape[1]):
+#         for col in range(y_image.shape[0]):
+#             xy_image[row,col] = math.sqrt(x_image[row,col]**2 + y_image[row,col]**2)
+#     return xy_image 
 
 
-
-kernel = np.array([[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]], np.int32)
+#kernel = np.array([[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]], np.int32)
 #kernel = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]], np.int32)
-print kernel
+#print kernel
 
 #testImage = cv2.imread("test_image.jpg", cv2.IMREAD_GRAYSCALE)
-testImage = cv2.imread("coke.jpg", cv2.IMREAD_GRAYSCALE)
+#testImage = cv2.imread("coke.jpg", cv2.IMREAD_GRAYSCALE)
 #cv2.imwrite('x_image.jpg', imageGradientX(testImage))
 #cv2.imwrite('y_image.jpg', imageGradientY(testImage))
 #cv2.imwrite('gradient_image.jpg', computeGradient(testImage, kernel))
 #gradientImage = cv2.imread("gradient_image.jpg", cv2.IMREAD_GRAYSCALE)
 #cv2.imwrite('bw_image.jpg', convertToBlackAndWhite(gradientImage))
-edges = cv2.Canny(testImage, 900, 3300, apertureSize=5)
-cv2.imwrite('canny_image.jpg', edges)
-#cv2.imwrite('xy_image.jpg', edgeDetectXY(testImage))
 
+#edges = cv2.Canny(testImage, 900, 3300, apertureSize=5)
+#cv2.imwrite('canny_image.jpg', edges)
+
+#cv2.imwrite('xy_image.jpg', edgeDetectXY(testImage))
