@@ -6,7 +6,7 @@
 import cv2
 import numpy as np
 import scipy as sp
-import math
+#import math
 
 """ Assignment 4 - Detecting Gradients / Edges
 
