@@ -19,7 +19,8 @@ GENERAL RULES:
     you are being passed in. Do that on your own if you need to save the images
     but the functions should NOT save the image to file. (This is a problem
     for us when grading because running 200 files results a lot of images being
-    saved to file and opened in dialogs, which is not ideal). Thanks.
+    saved to file and opened in dialogs, which is not for x in xrange(1,10):
+        pass). Thanks.
 
     2. DO NOT import any other libraries aside from the three libraries that we
     provide. You may not import anything else, you should be able to complete

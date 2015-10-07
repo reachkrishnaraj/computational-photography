@@ -146,6 +146,8 @@ def gaussPyramid(image, levels):
   for i in xrange(levels):
     output.append(reduce(output[i]))
   return output
+#    print len(output)-1, len(output[i+1]), len(output[i+1][0])
+#  return output[4]
   # END OF FUNCTION.
 
 def laplPyramid(gaussPyr):
@@ -193,10 +195,13 @@ def laplPyramid(gaussPyr):
 
     # Calculate Laplacian pyramid
     output.append(gaussPyr[i] - expanded)
-
+#    print len(output)-1, len(output[i]), len(output[i][0])
+    
   # Last element of Laplacian pyramid is identical to input
   output.append(gaussPyr[len(gaussPyr)-1])
   return output
+#  print len(output)-1, len(output[len(gaussPyr)-1]), len(output[len(gaussPyr)-1][0])
+#  return output[4]
   # END OF FUNCTION.
 
 def blend(laplPyrWhite, laplPyrBlack, gaussPyrMask):
@@ -236,9 +241,11 @@ def blend(laplPyrWhite, laplPyrBlack, gaussPyrMask):
   # WRITE YOUR CODE HERE.
   # Iterate over each pixel to calculate the blended pyramid
   blended_pyr = []
-  for i in xrange(len(gaussPyrMask)):
-    blended_pyr.append(gaussPyrMask[i])
-    blended_pyr[i] = gaussPyrMask[i]*laplPyrWhite[i] + (1 - gaussPyrMask[i])*laplPyrBlack[i]
+  for level in xrange(len(gaussPyrMask)):
+    blended_pyr.append(gaussPyrMask[level])
+    blended_pyr[level] = gaussPyrMask[level]*laplPyrWhite[level] + (1 - gaussPyrMask[level])*laplPyrBlack[level]
+#    print len(blended_pyr)-1, len(blended_pyr[level]-1), len(blended_pyr[level][0]-1)
+#  return blended_pyr[4]
   return blended_pyr
   # END OF FUNCTION.
 
@@ -280,5 +287,29 @@ def collapse(pyramid):
 
     # Flatten expanded onto next level
     output = expanded + pyramid[i - 1]
+#    print i-1, len(expanded), len(expanded[0])
   return output
   # END OF FUNCTION.
+
+
+#testImage = cv2.imread("images/source/sample/black.jpg", cv2.IMREAD_GRAYSCALE)
+#cv2.imwrite("images/source/sample/reduced_black.jpg", reduce(testImage))
+#cv2.imwrite("images/source/sample/expanded_black.jpg", expand(testImage))
+#cv2.imwrite("images/source/sample/g4_black.jpg", gaussPyramid(testImage, 4))
+#cv2.imwrite("images/source/sample/L4_black.jpg", laplPyramid(gaussPyramid(testImage, 4)))
+
+black = cv2.imread("images/source/sample/black.jpg", cv2.IMREAD_GRAYSCALE)
+white = cv2.imread("images/source/sample/white.jpg", cv2.IMREAD_GRAYSCALE)
+mask = cv2.imread("images/source/sample/mask.jpg", cv2.IMREAD_GRAYSCALE)
+#cv2.imwrite("images/source/sample/B4_black.jpg",blend(laplPyramid(gaussPyramid(white, 4)), 
+#            laplPyramid(gaussPyramid(black, 4)), gaussPyramid(mask, 4)))
+# blend_pyr = blend(laplPyramid(gaussPyramid(white, 5)), 
+#             laplPyramid(gaussPyramid(black, 5)), gaussPyramid(mask, 5))
+# cv2.imwrite("images/source/sample/collapsed_black.jpg", collapse(blend_pyr))
+
+# test = np.array([[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]])
+# uptest = np.zeros((2*len(test), 2*len(test[0])))
+# uptest[::2, ::2] = test
+# test = test[0:2,0:2]
+# for i in xrange(len(test)):
+#  print test[i]
