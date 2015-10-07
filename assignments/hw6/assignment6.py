@@ -234,11 +234,10 @@ def blend(laplPyrWhite, laplPyrBlack, gaussPyrMask):
   """ 
 
   # WRITE YOUR CODE HERE.
-  # Iterate over each pixel to calculate the blended pyramid
+  # Iterate over each level to calculate the blended pyramid
   blended_pyr = []
   for i in xrange(len(gaussPyrMask)):
-    blended_pyr.append(gaussPyrMask[i])
-    blended_pyr[i] = gaussPyrMask[i]*laplPyrWhite[i] + (1 - gaussPyrMask[i])*laplPyrBlack[i]
+    blended_pyr.append(gaussPyrMask[i]*laplPyrWhite[i] + (1 - gaussPyrMask[i])*laplPyrBlack[i])
   return blended_pyr
   # END OF FUNCTION.
 
