@@ -1,5 +1,7 @@
-# ASSIGNMENT 7
-# Your Name
+# ASSIGNMENT 6
+# Hieu Nguyen
+# GTID: 903185448
+# Email: hieu@gatech.edu
 
 import numpy as np
 import scipy as sp
@@ -85,14 +87,23 @@ def findMatchesBetweenImages(image_1, image_2):
   image_2_desc = None
 
   # WRITE YOUR CODE HERE.
+  # Compute SIFT keypoints and descriptors for both images
+  orb = cv2.ORB()
+  image_1_kp, image_1_desc = orb.detectAndCompute(image_1, None)
+  image_2_kp, image_2_desc = orb.detectAndCompute(image_2, None)
 
+  # Create a Brute Force Matcher, using the hamming distance
+  bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
 
+  # Compute the matches between both images
+  matches = bf.match(image_1_desc, image_2_desc)
 
-
+  # Sort the matches based on distance to get the best matches
+  matches = sorted(matches, key=lambda x:x.distance)
 
   # We coded the return statement for you. You are free to modify it -- just
   # make sure the tests pass.
-  return image_1_kp, image_2_kp, matches
+  return image_1_kp, image_2_kp, matches[0:10]
   # END OF FUNCTION.
 
 
