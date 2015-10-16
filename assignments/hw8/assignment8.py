@@ -68,10 +68,9 @@ def getImageCorners(image):
     """
     corners = np.zeros((4, 1, 2), dtype=np.float32)
     # WRITE YOUR CODE HERE
-
-
-
-
+    corners[1] = [0, image.shape[0]]
+    corners[2] = [image.shape[1], 0]
+    corners[3] = [image.shape[1], image.shape[0]]
     return corners
     # END OF FUNCTION
 
@@ -120,10 +119,20 @@ def findMatchesBetweenImages(image_1, image_2, num_matches):
     image_2_desc = None
 
     # COPY YOUR CODE FROM A7 HERE.
+    orb = cv2.ORB()
+    image_1_kp, image_1_desc = orb.detectAndCompute(image_1, None)
+    image_2_kp, image_2_desc = orb.detectAndCompute(image_2, None)
+    bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+    matches = bf.match(image_1_desc, image_2_desc)
+    matches = sorted(matches, key=lambda x:x.distance)
 
-
-
-
+    print "Image 1: {} keypoints found".format(len(image_1_kp))
+    print "Image 2: {} keypoints found".format(len(image_2_kp))
+    print "{} matches found".format(len(matches))
+    img1_kp = cv2.drawKeypoints(image_1, image_1_kp, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    img2_kp = cv2.drawKeypoints(image_2, image_2_kp, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    cv2.imwrite("images/output/img1_kp.jpg", img1_kp)
+    cv2.imwrite("images/output/img2_kp.jpg", img2_kp)
 
     return image_1_kp, image_2_kp, matches
   # END OF FUNCTION.
@@ -167,12 +176,14 @@ def findHomography(image_1_kp, image_2_kp, matches):
     image_2_points = np.zeros((len(matches), 1, 2), dtype=np.float32)
 
     # WRITE YOUR CODE HERE.
-
-
-
-
-    # Replace this return statement with the homography.
-    return None
+    i = 0
+    for mat in matches:
+        image_1_points[i] = np.float32(image_1_kp[mat.queryIdx].pt)
+        image_2_points[i] = np.float32(image_2_kp[mat.trainIdx].pt)
+        i += 1
+    M_hom, mask = cv2.findHomography(image_1_points, image_2_points, \
+                    method=cv2.RANSAC, ransacReprojThreshold=5.0)
+    return M_hom
     # END OF FUNCTION
 
 def blendImagePair(warped_image, image_2, point):
@@ -203,10 +214,6 @@ def blendImagePair(warped_image, image_2, point):
     # REPLACE THIS WITH YOUR BLENDING CODE.
     output_image[point[1]:point[1] + image_2.shape[0],
                  point[0]:point[0] + image_2.shape[1]] = image_2
-
-
-
-
     return output_image
     # END OF FUNCTION
 
@@ -272,20 +279,29 @@ def warpImagePair(image_1, image_2, homography):
     y_max = 0
 
     # WRITE YOUR CODE HERE
-
-
-
+    image_1_corners = getImageCorners(image_1)
+    image_2_corners = getImageCorners(image_2)
+    image_1_corners_t = cv2.perspectiveTransform(image_1_corners, homography)
+    join_corners = np.append(image_1_corners_t, image_2_corners, axis=0)
+    x_min = np.amin(join_corners[:,:,0])
+    x_max = np.amax(join_corners[:,:,0])
+    y_min = np.amin(join_corners[:,:,1])
+    y_max = np.amax(join_corners[:,:,1])
+    trans_mat = np.array([[1, 0, -1 * x_min], [0, 1, -1 * y_min], [0, 0, 1]])
+    trans_hom_mat = np.dot(trans_mat, homography)
+    warped_image = cv2.warpPerspective(image_1, trans_hom_mat, (x_max-x_min, y_max-y_min))
 
     # END OF CODING
-    output_image = blendImagePair(warped_image, image_2,
-                                  (-1 * x_min, -1 * y_min))
+    cv2.imwrite("images/output/warped_image.jpg", warped_image)
+    output_image = blendImagePair(warped_image, image_2, (-1 * x_min, -1 * y_min))
     return output_image
 
 # Some simple testing.
-# image_1 = cv2.imread("images/source/panorama_1/1.jpg")
-# image_2 = cv2.imread("images/source/panorama_1/2.jpg")
-# image_1_kp, image_2_kp, matches = findMatchesBetweenImages(image_1, image_2,
-#                                                            20)
-# homography = findHomography(image_1_kp, image_2_kp, matches)
-# result = warpImagePair(image_1, image_2, homography)
-# cv2.imwrite("images/output/panorama_1_result.jpg", result)
+image_1 = cv2.imread("images/source/panorama_1/1.jpg")
+image_2 = cv2.imread("images/source/panorama_1/2.jpg")
+image_1_gray = cv2.cvtColor(image_1, cv2.COLOR_BGR2GRAY)
+image_2_gray = cv2.cvtColor(image_2, cv2.COLOR_BGR2GRAY)
+image_1_kp, image_2_kp, matches = findMatchesBetweenImages(image_1_gray, image_2_gray, 20)
+homography = findHomography(image_1_kp, image_2_kp, matches)
+result = warpImagePair(image_1, image_2, homography)
+cv2.imwrite("images/output/panorama_1_result.jpg", result)
