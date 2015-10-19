@@ -125,14 +125,15 @@ def findMatchesBetweenImages(image_1, image_2, num_matches):
     bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
     matches = bf.match(image_1_desc, image_2_desc)
     matches = sorted(matches, key=lambda x:x.distance)
+    matches = matches[:num_matches]
 
-    print "Image 1: {} keypoints found".format(len(image_1_kp))
-    print "Image 2: {} keypoints found".format(len(image_2_kp))
-    print "{} matches found".format(len(matches))
-    img1_kp = cv2.drawKeypoints(image_1, image_1_kp, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-    img2_kp = cv2.drawKeypoints(image_2, image_2_kp, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-    cv2.imwrite("images/output/img1_kp.jpg", img1_kp)
-    cv2.imwrite("images/output/img2_kp.jpg", img2_kp)
+    # print "Image 1: {} keypoints found".format(len(image_1_kp))
+    # print "Image 2: {} keypoints found".format(len(image_2_kp))
+    # print "{} matches found".format(len(matches))
+    # img1_kp = cv2.drawKeypoints(image_1, image_1_kp, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    # img2_kp = cv2.drawKeypoints(image_2, image_2_kp, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    # cv2.imwrite("images/output/img1_kp.jpg", img1_kp)
+    # cv2.imwrite("images/output/img2_kp.jpg", img2_kp)
 
     return image_1_kp, image_2_kp, matches
   # END OF FUNCTION.
@@ -214,6 +215,52 @@ def blendImagePair(warped_image, image_2, point):
     # REPLACE THIS WITH YOUR BLENDING CODE.
     output_image[point[1]:point[1] + image_2.shape[0],
                  point[0]:point[0] + image_2.shape[1]] = image_2
+
+    # Create mask of overlapping region
+    mask_1 = np.copy(warped_image)
+    mask_2 = np.copy(warped_image)
+    mask_1[mask_1 > 0] = 127
+    mask_2[:,:,:] = 0
+    mask_overlap = np.copy(mask_2)
+    mask_2[point[1]:point[1]+image_2.shape[0], point[0]:point[0]+image_2.shape[1]] = 127
+    mask_overlap = mask_1 + mask_2
+    mask_overlap[mask_overlap > 127] = 255
+    mask_overlap[mask_overlap < 128] = 0
+
+    # Find corners of overlap mask
+    max_col = 0
+    min_col = 100000
+    max_row = 0
+    min_row = 100000
+    for row in xrange(mask_overlap.shape[0]):
+        for col in xrange(mask_overlap.shape[1]):
+            if(col>max_col):
+                if(mask_overlap[row,col,0]==255):
+                    max_col = col
+            if(col<min_col):
+                if(mask_overlap[row,col,0]==255):
+                    min_col = col
+            if(row>max_row):
+                if(mask_overlap[row,col,0]==255):
+                    max_row = row
+            if(row<min_row):
+                if(mask_overlap[row,col,0]==255):
+                    min_row = row 
+
+    # Iterate over output image and replace overlap with weighted average
+    row_top_threshold = 100
+    row_bot_threshold = 150
+    for row in xrange(output_image.shape[0]):
+        for col in xrange(output_image.shape[1]):
+            if (mask_overlap[row, col, 0] > 0):
+                x_weight = (float(col)-min_col)/(max_col-min_col)
+                output_image[row, col] = x_weight*output_image[row, col] + (1-x_weight)*warped_image[row, col]
+                if (row>=min_row and row<=min_row+row_top_threshold):
+                    y_weight_top = (float(row)-min_row)/row_top_threshold
+                    output_image[row, col] = y_weight_top*output_image[row, col] + (1-y_weight_top)*warped_image[row, col]
+                if (row<=max_row and row>=max_row-row_bot_threshold):
+                    y_weight_bot = 1.0 - ((max_row-float(row))/row_bot_threshold)
+                    output_image[row, col] = y_weight_bot*image_2[row-point[1], col-point[0]] + (1-y_weight_bot)*output_image[row, col]
     return output_image
     # END OF FUNCTION
 
@@ -292,16 +339,16 @@ def warpImagePair(image_1, image_2, homography):
     warped_image = cv2.warpPerspective(image_1, trans_hom_mat, (x_max-x_min, y_max-y_min))
 
     # END OF CODING
-    cv2.imwrite("images/output/warped_image.jpg", warped_image)
+#    cv2.imwrite("images/output/warped_image.jpg", warped_image)
     output_image = blendImagePair(warped_image, image_2, (-1 * x_min, -1 * y_min))
     return output_image
 
 # Some simple testing.
-image_1 = cv2.imread("images/source/panorama_1/1.jpg")
-image_2 = cv2.imread("images/source/panorama_1/2.jpg")
-image_1_gray = cv2.cvtColor(image_1, cv2.COLOR_BGR2GRAY)
-image_2_gray = cv2.cvtColor(image_2, cv2.COLOR_BGR2GRAY)
-image_1_kp, image_2_kp, matches = findMatchesBetweenImages(image_1_gray, image_2_gray, 20)
-homography = findHomography(image_1_kp, image_2_kp, matches)
-result = warpImagePair(image_1, image_2, homography)
-cv2.imwrite("images/output/panorama_1_result.jpg", result)
+# image_1 = cv2.imread("images/source/panorama_1/1.jpg")
+# image_2 = cv2.imread("images/source/panorama_1/2.jpg")
+# image_1_gray = cv2.cvtColor(image_1, cv2.COLOR_BGR2GRAY)
+# image_2_gray = cv2.cvtColor(image_2, cv2.COLOR_BGR2GRAY)
+# image_1_kp, image_2_kp, matches = findMatchesBetweenImages(image_1_gray, image_2_gray, 100)
+# homography = findHomography(image_1_kp, image_2_kp, matches)
+# result = warpImagePair(image_1, image_2, homography)
+# cv2.imwrite("images/output/panorama_1_result.jpg", result)
