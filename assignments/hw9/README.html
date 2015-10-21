@@ -1,0 +1,63 @@
+<div style="width: 800px;">
+    <h1>Assignment 9: High Dynamic Range Imaging</h1>
+    <div id="introduction">
+        <h2 style="color: black; font-size: 130%; text-decoration: underline">Introduction</h2>
+            <p>In this homework assignment, we will focus on the core algorithms behind computing HDR.</p>
+    </div>
+    <div>
+        <p>Before we get started, download the assignment files under Resources > Assignments > Assignment 9 that contains the files you will be working with. It also contains the assignment description if you wish to view it offline. </p>
+        <p>Once you have extracted the zip file above, you are ready to get started.</p>
+        <p>As with previous assignments, running <strong> assignment9_test.py </strong> directly will apply a unit test to your code and print out helpful feedback. You can use this to debug your functions.</p>
+    </div>
+    <div id="part1">
+        <h2 style="color: black; font-size: 130%; text-decoration: underline">Part 1: Building the Functionality.</h2>
+
+        <p> This is a quick highlight of the functions. assignment9.py has extensive function descriptions with step by step guidelines for each implementation. </p>
+        <ol>
+            <li> <strong>normalizeImage</strong> </li>
+            <p> For an input image, normalize it from 0 to 255. </p>
+            <li> <strong>linearWeight</strong> </li>
+            <p> Function for outputting weights based on pixel value. </p>
+            <li> <strong>getYXLocations</strong> </li>
+            <p> Given an image and an intensity value, return the YX locations of where the intensity value appears. </p>
+            <li> <strong>computeResponseCurve</strong> </li>
+            <p> Given the images at different exposures for a single channel, get the response curve by performing a Singular Value Decomposition (SVD). </p>
+            <li> <strong>readImages</strong> </li>
+            <p> Reads in images from a folder (this is implemented for you). </p>            
+            <li> <strong>computeHDR</strong> </li>
+            <p> Brings everything together (this is implemented for you). </p>
+        </ol>
+    </div> <!-- End part 1 -->
+
+    <div id="part2">
+        <h2 style="color: black; font-size: 130%; text-decoration: underline">Part 2: Try it yourself!</h2>
+        <p> Note: We recommend resizing images to small versions (like provided) so the code takes ~1 minute to run. Larger images will degrade computation time significantly. We wrote a simple resizing boolean parameter that will resize your input by 1/4th its original size for you (if you set it = True).</p>
+        <h3> Obtaining a set of HDR images. </h3>
+        <p> Look online for a set of HDR images and their respective exposures. If you are provided with the original images, the exposure level may be in the metadata (be sure to check the image properties for it). Modify that in the provided sample code, and try running your code on those images to see if it works for other images. In the PDF provide thumbnails of the images and the output HDR image.</p>
+        <p> You are welcome to take your own if your camera supports taking multiple exposures. Dark indoor scenes with bright outdoors generally work great for this. </p>
+    </div>
+    <div id="other_details">
+        <h2 style="color: black; font-size: 130%; text-decoration: underline">Some notes:</h2>
+        <p> Originally we planned on doing tone-mapping. This is the final step in computing an HDR image. We opted not to due to some functionality which we did not find in the available libraries we use (numpy / scipy). Due to this the output images may not be perfect but you should notice more detail in over exposed areas as shown in the example output included for you. </p>
+        <p> This code is still experimental. If you think you find what you think is a bug by all means bring it up on Piazza so we can discuss it, we'd really appreciate that. </p>
+        <p> Lastly, this assignment is somewhat different than others in that it will also require simply reading code and understanding it. We provide this with the hope that it provides further insight as to how numpy can be used for matrix computations. </p>
+    </div>
+
+<div id="pdf_details">
+<h2 style="color: black; font-size: 130%; text-decoration: underline">The Writeup</h2>
+<p>This is what we want you to do for the PDF.</p>
+<ol>
+    <li> Demonstrate the output you got on the input images we gave you. </li>
+    <li> Demonstrate thumbnails of the HDR images you chose to try. </li>
+    <li> Demonstrate the result for those HDR images. </li>
+</ol>
+
+</div>
+<div id="turnin">
+<h2 style="color: black; font-size: 130%; text-decoration: underline">What to turn in:</h2>
+<ul>
+    <li>assignment9.py - Your code.</li>
+    <li>assignment9.pdf - See above for the writeup, include the images in the PDF (only in the PDF)!</li>
+</ul>
+</div>
+</div>
