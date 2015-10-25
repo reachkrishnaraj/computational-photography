@@ -142,11 +142,6 @@ def getYXLocations(image, intensity_value):
     """
     # WRITE YOUR CODE HERE.
     return np.int64(np.where(image == intensity_value))
-    # locs_tuple = np.where(image == intensity_value)
-    # y_locs = np.int64(locs_tuple[0])
-    # x_locs = np.int64(locs_tuple[1])
-    # return y_locs, x_locs
-
     # END OF FUNCTION
 
 def computeResponseCurve(pixels, log_exposures, smoothing_lambda,
@@ -424,11 +419,11 @@ def computeHDR(image_dir, log_exposure_times, smoothing_lambda = 100,
     return hdr_image
 
 # Test code to run the function.
-image_dir = "input"
-output_dir = "output"
-exposure_times = np.float64([1/160.0, 1/125.0, 1/80.0, 1/60.0, 1/40.0, 1/15.0])
-log_exposure_times = np.log(exposure_times)
+# image_dir = "input"
+# output_dir = "output"
+# exposure_times = np.float64([1/160.0, 1/125.0, 1/80.0, 1/60.0, 1/40.0, 1/15.0])
+# log_exposure_times = np.log(exposure_times)
 
-np.random.seed()
-hdr = computeHDR(image_dir, log_exposure_times, resize = True)
-cv2.imwrite(output_dir + "/hdr.jpg", hdr)
+# np.random.seed()
+# hdr = computeHDR(image_dir, log_exposure_times, resize = True)
+# cv2.imwrite(output_dir + "/hdr.jpg", hdr)
