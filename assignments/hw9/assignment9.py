@@ -1,5 +1,7 @@
 # ASSIGNMENT 9
-# Your Name
+# Hieu Nguyen
+# GTID: 903185448
+# Email: hieu@gatech.edu
 
 """ Assignment 9 - Building an HDR image
 
@@ -62,14 +64,13 @@ def normalizeImage(img):
     # We initialize this as float since you will do arithmetic computation.
     out = np.zeros(img.shape, dtype=np.float)
     # WRITE YOUR CODE HERE.
-
-
-
-
+    out = img - np.amin(img)
+    out = out * (255/np.amax(out))
     # END OF FUNCTION.
     # We handle casting your matrix to a uint8. If your values do not range from
     # 0->255 this will produce overflow casting which would be erroneous.
     return np.uint8(out)
+
 def linearWeight(pixel_value):
     """ Linear Weighting function based on pixel location.
 
@@ -97,10 +98,10 @@ def linearWeight(pixel_value):
     weight = 0.0
 
     # WRITE YOUR CODE HERE.
-
-
-
-
+    if (pixel_value > pixel_range_mid):
+        weight = pixel_range_max - pixel_value
+    else:
+        weight = np.float(pixel_value)
     # END OF FUNCTION.
     return weight
 
@@ -140,10 +141,12 @@ def getYXLocations(image, intensity_value):
                                 locations of input intensity. Type np.int64.
     """
     # WRITE YOUR CODE HERE.
+    return np.int64(np.where(image == intensity_value))
+    # locs_tuple = np.where(image == intensity_value)
+    # y_locs = np.int64(locs_tuple[0])
+    # x_locs = np.int64(locs_tuple[1])
+    # return y_locs, x_locs
 
-
-
-    
     # END OF FUNCTION
 
 def computeResponseCurve(pixels, log_exposures, smoothing_lambda,
@@ -229,10 +232,9 @@ def computeResponseCurve(pixels, log_exposures, smoothing_lambda,
         for j in xrange(num_images):
             wij = weighting_function(pixels[i, j])
             # PART 1: WRITE YOUR CODE HERE
-
-
-
-
+            mat_A[idx_ctr, pixels[i,j]] = wij
+            mat_A[idx_ctr, pix_range+i]  = -wij
+            mat_b[idx_ctr, 0] = wij * log_exposures[j]
             # STOP WRITING CODE HERE.
             idx_ctr = idx_ctr + 1
 
@@ -250,10 +252,8 @@ def computeResponseCurve(pixels, log_exposures, smoothing_lambda,
     # Ax = b | x = A^-1 * b
 
     # PART 2: WRITE YOUR CODE HERE
-
-
-
-
+    mat_A_inv = np.linalg.pinv(mat_A)
+    x = np.dot(mat_A_inv, mat_b)
     # STOP WRITING CODE HERE.
 
     # x should be a 512 x 1 matrix (we slice it and only return 0->255).
@@ -424,11 +424,11 @@ def computeHDR(image_dir, log_exposure_times, smoothing_lambda = 100,
     return hdr_image
 
 # Test code to run the function.
-# image_dir = "input"
-# output_dir = "output"
-# exposure_times = np.float64([1/160.0, 1/125.0, 1/80.0, 1/60.0, 1/40.0, 1/15.0])
-# log_exposure_times = np.log(exposure_times)
+image_dir = "input"
+output_dir = "output"
+exposure_times = np.float64([1/160.0, 1/125.0, 1/80.0, 1/60.0, 1/40.0, 1/15.0])
+log_exposure_times = np.log(exposure_times)
 
-# np.random.seed()
-# hdr = computeHDR(image_dir, log_exposure_times, resize = True)
-# cv2.imwrite(output_dir + "/hdr.jpg", hdr)
+np.random.seed()
+hdr = computeHDR(image_dir, log_exposure_times, resize = True)
+cv2.imwrite(output_dir + "/hdr.jpg", hdr)
