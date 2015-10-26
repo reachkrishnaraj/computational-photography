@@ -423,18 +423,3 @@ def computeHDR(image_dir, log_exposure_times, smoothing_lambda = 100,
 # output_dir = "output"
 # exposure_times = np.float64([1/160.0, 1/125.0, 1/80.0, 1/60.0, 1/40.0, 1/15.0])
 # log_exposure_times = np.log(exposure_times)
-
-# np.random.seed()
-# hdr = computeHDR(image_dir, log_exposure_times, resize = True)
-# cv2.imwrite(output_dir + "/hdr.jpg", hdr)
-
-# http://www.hdrsoft.com/examples2.html
-# exposure times are 1/500, 1/125, 1/30, 1/8, and 1/2 seconds
-image_dir = "input"
-output_dir = "output"
-exposure_times = np.float64([1/500.0, 1/125.0, 1/30.0, 1/8.0, 1/2.0])
-log_exposure_times = np.log(exposure_times)
-
-np.random.seed()
-hdr = computeHDR(image_dir, log_exposure_times, resize = False)
-cv2.imwrite(output_dir + "/hdr.jpg", hdr)
