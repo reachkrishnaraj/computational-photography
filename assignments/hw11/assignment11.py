@@ -154,10 +154,7 @@ def transitionDifference(ssd_difference):
                        ssd_difference.shape[1] - 4), dtype=ssd_difference.dtype)
     # WRITE YOUR CODE HERE.
     # Construct 5x5 kernel with binomial filter weights along diagonal
-    weight = binomialFilter5()
-    kernel = np.zeros((5, 5), dtype=float)
-    for i in xrange(5):
-        kernel[i][i] = weight[i]
+    kernel = np.diag(binomialFilter5())
     
     # Perform 2D convolution to calculate difference matrix
     output = scipy.signal.convolve2d(ssd_difference, kernel, mode='valid')
@@ -199,17 +196,15 @@ def findBiggestLoop(transition_diff, alpha):
     end = 0
     largest_score = 0
 
-    # WRITE YOUR CODE HERE.
-    # Iterate over all start/end frame paths and calculate score
-    score = np.zeros((transition_diff.shape[0], 
-                      transition_diff.shape[1]), dtype=transition_diff.dtype)
+    # WRITE YOUR CODE HERE.    
     for i in xrange(transition_diff.shape[0]):
-        for j in xrange(transition_diff.shape[1]):
-            score[i][j] = alpha*(j - i) - transition_diff[j][i]
-
-    # Find loop indices with the largest score
-    start = np.argmax(score) / transition_diff.shape[0]
-    end = np.argmax(score) % transition_diff.shape[1]
+        #i+1 assumes video wider than height
+        for j in xrange(i+1, transition_diff.shape[1]): 
+            score = alpha*(j - i) - transition_diff[j][i]
+            if score > largest_score:
+                start, end = i, j
+                largest_score = score
+    print "START, END", start, end
     # END OF FUNCTION.
     return start, end
 

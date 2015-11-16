@@ -358,7 +358,8 @@ def runTexture(img_list):
     video_volume = assignment11.videoVolume(img_list)
     ssd_diff = assignment11.sumSquaredDifferences(video_volume)
     transition_diff = assignment11.transitionDifference(ssd_diff)
-    alpha = 1.5*10**6
+    # alpha = 1.5*10**6
+    alpha = 1.90032595*10**6
     idxs = assignment11.findBiggestLoop(transition_diff, alpha)
 
     diff3 = np.zeros(transition_diff.shape, float)
