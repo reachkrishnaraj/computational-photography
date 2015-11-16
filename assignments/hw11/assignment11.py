@@ -51,10 +51,7 @@ def videoVolume(images):
                       images[0].shape[2]), dtype=np.uint8)
 
     # WRITE YOUR CODE HERE.
-
-
-
-
+    output = np.array(images)
     # END OF FUNCTION.
     return output
 
@@ -90,10 +87,14 @@ def sumSquaredDifferences(video_volume):
     
     output = np.zeros((len(video_volume), len(video_volume)), dtype=np.float)
     # WRITE YOUR CODE HERE.
-
-
-
-
+    for i in xrange(len(video_volume)):
+        cur_frame = video_volume[i]
+        for j in xrange(len(video_volume)):
+            if (i<j):   # Avoid repitition in symmetrical matrix
+                comparison_frame = video_volume[j]
+                output[i][j] = np.sum((cur_frame.astype(float) 
+                                - comparison_frame.astype(float))**2)
+                output[j][i] = output[i][j]
     # END OF FUNCTION.
     return output
 
@@ -152,9 +153,14 @@ def transitionDifference(ssd_difference):
     output = np.zeros((ssd_difference.shape[0] - 4,
                        ssd_difference.shape[1] - 4), dtype=ssd_difference.dtype)
     # WRITE YOUR CODE HERE.
-
-
-
+    # Construct 5x5 kernel with binomial filter weights along diagonal
+    weight = binomialFilter5()
+    kernel = np.zeros((5, 5), dtype=float)
+    for i in xrange(5):
+        kernel[i][i] = weight[i]
+    
+    # Perform 2D convolution to calculate difference matrix
+    output = scipy.signal.convolve2d(ssd_difference, kernel, mode='valid')
 
     # END OF FUNCTION.
     return output
@@ -194,10 +200,16 @@ def findBiggestLoop(transition_diff, alpha):
     largest_score = 0
 
     # WRITE YOUR CODE HERE.
+    # Iterate over all start/end frame paths and calculate score
+    score = np.zeros((transition_diff.shape[0], 
+                      transition_diff.shape[1]), dtype=transition_diff.dtype)
+    for i in xrange(transition_diff.shape[0]):
+        for j in xrange(transition_diff.shape[1]):
+            score[i][j] = alpha*(j - i) - transition_diff[j][i]
 
-
-
-
+    # Find loop indices with the largest score
+    start = np.argmax(score) / transition_diff.shape[0]
+    end = np.argmax(score) % transition_diff.shape[1]
     # END OF FUNCTION.
     return start, end
 
@@ -218,10 +230,8 @@ def synthesizeLoop(video_volume, start, end):
 
     output = [] 
     # WRITE YOUR CODE HERE.
-
-
-
-
+    for i in xrange(start, end+1):
+        output.append(video_volume[i])
     # END OF FUNCTION.
     return output
 
