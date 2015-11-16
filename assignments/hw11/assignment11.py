@@ -1,5 +1,7 @@
 # ASSIGNMENT 11
-# Your Name
+# Hieu Nguyen
+# GTID: 903185448
+# Email: hieu@gatech.edu
 
 """ Assignment 11 - Video Textures
 
